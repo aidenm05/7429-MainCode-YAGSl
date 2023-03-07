@@ -31,13 +31,14 @@ public class RobotContainer
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/neo"));
+                                                                         "swerve/falcon"));
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(1);
+  // CommandJoystick driverController = new CommandJoystick(1);
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
+  XboxController operator = new XboxController(1);
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -79,13 +80,13 @@ public class RobotContainer
                                                     () -> driverXbox.getRawAxis(2), () -> true, false, true);
     TeleopDrive closedFieldRel = new TeleopDrive(
         drivebase,
-        () -> (Math.abs(driverController.getY()) > OperatorConstants.LEFT_Y_DEADBAND) ? driverController.getY() : 0,
-        () -> (Math.abs(driverController.getX()) > OperatorConstants.LEFT_X_DEADBAND) ? driverController.getX() : 0,
-        () -> -driverController.getRawAxis(3), () -> true, false, true);
+        () -> (Math.abs(operator.getLeftY()) > OperatorConstants.LEFT_Y_DEADBAND) ? -operator.getLeftY() : 0,
+        () -> (Math.abs(operator.getLeftX()) > OperatorConstants.LEFT_X_DEADBAND) ? -operator.getLeftX() : 0,
+        () -> -operator.getRawAxis(3), () -> true, false, false);
 
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? closedAbsoluteDrive : closedFieldAbsoluteDrive);
+    drivebase.setDefaultCommand(closedFieldRel);
   }
-
+//AbOVE HEADING CORRECTION IS NEW INVESTIGATE  AND TURN ON WHEN READY WITH WORKING SWERVE
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
    * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
@@ -101,7 +102,7 @@ public class RobotContainer
     new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 //    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
   }
-
+//REPLACE WITH REAL VISION READING
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

@@ -31,6 +31,8 @@ public final class Autos
   /**
    * April Tag field layout.
    */
+
+  //ADD FIELD LAYOUT
   private static AprilTagFieldLayout aprilTagField = null;
 
   private Autos()
@@ -68,6 +70,9 @@ public final class Autos
       List<PathPlannerTrajectory> example1 = PathPlanner.loadPathGroup("SamplePath", new PathConstraints(4, 3));
       // This is just an example event map. It would be better to have a constant, global event map
       // in your code that will be used by all path following commands.
+
+      //ADD SMART DASHBAORD DROPDOWN SAMPLE PATH CHOOSER ABOVE
+
       HashMap<String, Command> eventMap = new HashMap<>();
       eventMap.put("marker1", new PrintCommand("Passed marker 1"));
 
@@ -86,6 +91,7 @@ public final class Autos
 // Module states consumer used to output to the drive subsystem
           eventMap,
           false,
+//ALLAINCE COLOR SHOOSE FOR PATH
 // Should the path be automatically mirrored depending on alliance color. Optional, defaults to true
           swerve
 // The drive subsystem. Used to properly set the requirements of path following commands
@@ -106,6 +112,7 @@ public final class Autos
    * @param offset            Offset from the April Tag.
    * @return {@link FollowTrajectory} command. May return null if cannot load field.
    */
+  //LOADS APRIL TAG LAYOUT (WE MUST TELL WHAT APRIL TAG WE WANT TO GO TO  THE BELOW VARIABLES MUST BE ADDED WHEN THIS IS CALLED)
   public static CommandBase driveToAprilTag(SwerveSubsystem swerve, int id, Rotation2d rotation,
                                             Rotation2d holonomicRotation, Translation2d offset)
   {
